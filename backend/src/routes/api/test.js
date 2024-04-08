@@ -5,6 +5,8 @@ const { rss, subgroup, anime, poster, torrent } = require('../../utils')
 
 router.get('/', async function (req, res, next) {
   // TODO: For test
+  let result = subgroup.format('')
+  //let result = await TMDB.search('葬送的芙莉莲')
 
   sendJSON({
     req, res,
@@ -14,6 +16,7 @@ router.get('/', async function (req, res, next) {
   next();
 })
 
+/*
 router.post('/resetDB', async function (req, res, next) {
   await global.db.reset()
   sendJSON({
@@ -22,6 +25,6 @@ router.post('/resetDB', async function (req, res, next) {
   })
   next();
 })
-
+*/
 
 module.exports = router;

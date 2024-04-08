@@ -72,8 +72,8 @@ const subgroup = {
                 name = nameList[0]
             }
             let seasonListCN = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
-            let resultSeasonCN = name.match(/第(.)季/)
-            let resultSeasonEN = name.match(/Season (\d+)/)
+            let resultSeasonCN = null//name.match(/第(.)季/) || name.match(/第(.)幕/)
+            let resultSeasonEN = name.match(/Season (\d+)/) || name.match(/ S(\d+)/)
             let resultSeason = resultSeasonCN || resultSeasonEN
             if (resultSeason) {
                 let floatResult = parseFloat(resultSeason[1])
@@ -84,7 +84,9 @@ const subgroup = {
                     season = seasonListCN.indexOf(resultSeason[1])
                 }
                 name = name.replace(/第.季/g, '')
+                name = name.replace(/第.幕/g, '')
                 name = name.replace(/Season \d+/g, '')
+                name = name.replace(/ S(\d+)/g, '')
             }
             name = name.trimEnd()
         }
