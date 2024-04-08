@@ -1,0 +1,13 @@
+node_modules/
+**/node_modules/
+
+config.yml
+data/*
+
+**/logs
+logs
+*.log
+test/
+keys/
+
+**/.vscode/*

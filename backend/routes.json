@@ -1,0 +1,81 @@
+{
+    "routes": {
+        "api": {
+            "/": {
+                "path": "index",
+                "active": true
+            },
+            "error": {
+                "active": false
+            },
+            "user": {
+                "login": {
+                    "active": true
+                },
+                "validate": {
+                    "active": true
+                },
+                "update": {
+                    "active": true
+                }
+            },
+            "test": {
+                "active": false
+            },
+            "anime": {
+                "gallery": {
+                    "active": true
+                },
+                "detail": {
+                    "active": true
+                },
+                "refresh": {
+                    "active": true
+                }
+            },
+            "rss": {
+                "add": {
+                    "active": true
+                },
+                "meta": {
+                    "active": true
+                },
+                "all": {
+                    "active": true
+                },
+                "scan": {
+                    "active": true
+                },
+                "delete": {
+                    "active": true
+                },
+                "update": {
+                    "subscribe": {
+                        "active": true
+                    }
+                }
+            },
+            "torrent": {
+                "scan": {
+                    "active": true
+                },
+                "toggle": {
+                    "active": true
+                }
+            },
+            "config": {
+                "get": {
+                    "active": true
+                },
+                "update": {
+                    "active": true
+                }
+            },
+            "info": {
+                "output": {
+                    "active": true
+                }
+            }
+        }
+    }
+}

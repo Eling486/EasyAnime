@@ -1,0 +1,16 @@
+http: true
+https: false
+ca:
+  key: './data/ca/key.pem'
+  cert: './data/ca/cert.pem'
+port: [3486, 443]
+TMDB_key: null
+filter: ['720P', 'MP4', '1280x720']
+save_path: '/volume1/docker/EasyAnime/anime'
+subscribe: true
+jobs:
+  scan_rss: '0 0 0/1 * * *'
+qBittorrent:
+  host: 172.17.0.1:8085
+  username: 'admin'
+  password: 'adminadmin'

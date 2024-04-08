@@ -1,0 +1,40 @@
+@import './base.scss';
+@import 'element-plus/theme-chalk/src/message-box.scss';
+@import 'element-plus/theme-chalk/src/message.scss';
+
+body,
+header {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a:not(.el-link),
+.green {
+  text-decoration: none;
+  color: $ea-main;
+  transition: 0.4s;
+  padding: 3px;
+}
+
+.el-dialog-icon {
+  margin-left: 1em;
+
+  .el-message-box__container {
+    .el-icon {
+      height: 2.5em;
+      width: 2.5em;
+
+      svg {
+        height: 2.5em;
+        width: 2.5em;
+      }
+    }
+
+    p {
+      font-size: 1.1em;
+    }
+  }
+}
+
+@media (min-width: 1024px) {}

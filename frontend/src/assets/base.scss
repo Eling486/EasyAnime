@@ -1,0 +1,46 @@
+$ea-header-height: 48px;
+$ea-nav-height: 32px;
+
+$ea-text: #0b3146;
+$ea-text-light: #2b78a4;
+
+$ea-white: #fff;
+
+$ea-main: #2babf0;
+@function ea-main($alpha: 10) {
+    @return rgba(43, 171, 240, calc($alpha/10));
+}
+
+$ea-dark: #0a2e41;
+@function ea-dark($alpha: 10) {
+    @return rgba(10, 46, 65, calc($alpha/10));
+}
+
+$ea-light: #a2dbf9;
+@function ea-light($alpha: 10) {
+    @return rgba(162, 219, 249, calc($alpha/10));
+}
+
+$ea-green: #13c53a;
+@function ea-green($alpha: 10) {
+    @return rgba(19, 197, 58, calc($alpha/10));
+}
+
+$ea-yellow: #e3dd2b;
+@function ea-yellow($alpha: 10) {
+    @return rgba(227, 221, 43, calc($alpha/10));
+}
+
+$ea-red: #d51717;
+@function ea-red($alpha: 10) {
+    @return rgba(213, 23, 23, calc($alpha/10));
+}
+
+@function ea-gray($deep: 50, $alpha: 10) {
+    @return rgba(calc(2.55*(100 - $deep)), calc(2.55*(100 - $deep)), calc(2.55*(100 - $deep)), calc($alpha/10));
+}
+
+$st-light-gray: #ededed;
+
+$shadow-1: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+$shadow-2: rgba(99, 99, 99, 0.4) 8px 5px 14px 1px;
