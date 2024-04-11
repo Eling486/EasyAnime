@@ -103,45 +103,48 @@ loginRedirect()
 }
 
 @media (max-width: 900px) {
-
-.inner-box {
-  height: 100%;
-  width: 100%;
-  border-radius: 0;
-  box-sizing: border-box;
-  padding-top: 0;
-}
-.nav-box {
-  position: relative;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: $ea-nav-height-m;
-  border-bottom: ea-gray(10) 1px solid;
-  font-size: 14px;
-  box-sizing: border-box;
-
-  .nav-right {
-    margin-left: auto;
-  }
-
-  .nav-item {
-    display: flex;
+  .inner-box {
     height: 100%;
-    align-items: center;
-    padding: 0 12px;
-    cursor: pointer;
+    width: 100%;
+    border-radius: 0;
+    box-sizing: border-box;
+    padding-top: 0;
+  }
+  .nav-box {
+    position: relative;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: $ea-nav-height-m;
+    border-bottom: ea-gray(10) 1px solid;
+    font-size: 14px;
+    box-sizing: border-box;
 
-    .nav-text {
-      margin-left: 4px;
+    .nav-right {
+      margin-left: auto;
     }
 
-    &:hover {
-      background-color: ea-main(2);
+    .nav-item {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      padding: 0 12px;
+      cursor: pointer;
+
+      .nav-text {
+        margin-left: 4px;
+      }
+
+      &:hover {
+        background-color: ea-main(2);
+      }
     }
   }
-}
+
+  .ep-details-wrap {
+    width: 95% !important;
+  }
 }
 
 /* scrollbar */
