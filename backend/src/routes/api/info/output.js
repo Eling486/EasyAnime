@@ -32,14 +32,16 @@ router.get('/', async function (req, res, next) {
     const rl = readline.createInterface({ input: readStream });
 
     const lines = [];
+    let lineIndex = 0
 
     // 逐行读取文件内容
     rl.on('line', (line) => {
         line = line.replace(/ /g,'&nbsp;')
-        lines.push(line);
+        lines.push([lineIndex, line]);
         if (lines.length > prePage) {
             lines.shift();
         }
+        lineIndex++
     });
 
     // 读取完毕

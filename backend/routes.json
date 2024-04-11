@@ -72,6 +72,9 @@
                 }
             },
             "info": {
+                "all": {
+                    "active": true
+                },
                 "output": {
                     "active": true
                 }

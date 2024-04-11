@@ -1,4 +1,5 @@
 const sqlite = require('./sqlite')
+const moment = require("moment");
 
 class db {
 
@@ -126,7 +127,7 @@ class db {
                 if (result.code < 0) return -1;
                 if (result.data.length > 0) return result.data[0].tid
 
-                let err = await this.runSync(`INSERT INTO torrent (aid, rid, title, homepage, url, content_length, meta, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?);`, [data.aid, data.rid, data.title, data.homepage, data.url, data.content_length, data.meta, data.state ])
+                let err = await this.runSync(`INSERT INTO torrent (aid, rid, title, homepage, url, content_length, meta, state, add_time, update_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`, [data.aid, data.rid, data.title, data.homepage, data.url, data.content_length, data.meta, data.state, Date.now(), Date.now() ])
                 if (err) return -1;
                 return 0;
             },
@@ -135,6 +136,11 @@ class db {
                     return await this.search(`SELECT * FROM torrent`)
                 }
                 return await this.search(`SELECT * FROM torrent WHERE tid = ?`, tid)
+            },
+            getToday: async () => {
+                let dateToday = moment().format("YYYY-MM-DD")
+                let dateNext = moment().add(1, 'day').format("YYYY-MM-DD")
+                return await this.search(`SELECT * FROM torrent WHERE add_time > (strftime('%s', '${dateToday}','localtime')*1000) AND add_time < (strftime('%s', '${dateNext}','localtime')*1000)`)
             },
             getByState: async (state = 0) => {
                 return await this.search(`SELECT * FROM torrent WHERE state = ?`, state)
@@ -164,12 +170,12 @@ class db {
                 return 0;
             },
             updateSameEp: async (tid, filename) => {
-                let err = await this.runSync(`UPDATE torrent SET file_name = ?, state = ? WHERE tid = ?`, [filename, -5, tid])
+                let err = await this.runSync(`UPDATE torrent SET file_name = ?, state = ?, update_time = ? WHERE tid = ?`, [filename, -5, Date.now(), tid])
                 if (err) return -1;
                 return 0;
             },
             updateState: async (tidList = [], state) => {
-                let err = await this.runSync(`UPDATE torrent SET state = ? WHERE tid IN (${tidList.join(',')})`, [state])
+                let err = await this.runSync(`UPDATE torrent SET state = ?, update_time = ? WHERE tid IN (${tidList.join(',')})`, [state, Date.now()])
                 if (err) return -1;
                 return 0;
             },
@@ -179,7 +185,7 @@ class db {
                 return 0;
             },
             downloadUpdate: async (tid, hash, state) => {
-                let err = await this.runSync(`UPDATE torrent SET hash = ?, state=? WHERE tid = ?`, [hash, state, tid])
+                let err = await this.runSync(`UPDATE torrent SET hash = ?, state=?, update_time = ? WHERE tid = ?`, [hash, state, Date.now(), tid])
                 if (err) return -1;
                 return 0;
             }

@@ -15,7 +15,7 @@
           <el-alert class="config-alert" type="info" show-icon :closable="false">
             <p>{{ langs[settings.lang].setting.alert_server }}</p>
           </el-alert>
-          <el-checkbox label="HTTP" v-model="data.config.http" />
+          <el-checkbox label="HTTP" v-model="data.config.http" disabled/>
           <el-form-item :label="langs[settings.lang].setting.port">
             <el-input-number
               v-model="data.config.port[0]"
@@ -26,7 +26,7 @@
               :disabled="!data.config.http"
             />
           </el-form-item>
-          <el-checkbox label="HTTPS" v-model="data.config.https" />
+          <el-checkbox label="HTTPS" v-model="data.config.https" disabled/>
           <el-form-item :label="langs[settings.lang].setting.port">
             <el-input-number
               v-model="data.config.port[1]"
@@ -388,6 +388,12 @@ onMounted(async () => {
 
   .filter-input {
     width: 80px;
+  }
+}
+
+@media (max-width: 900px) {
+  :deep(.el-form) {
+    width: 90% !important;
   }
 }
 </style>

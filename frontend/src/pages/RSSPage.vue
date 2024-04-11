@@ -262,7 +262,7 @@ const copyUrl = (url) => {
 
 const loadRSSList = async () => {
   let result = await api('GET', '/api/rss/all').catch((err) => {
-    if(err.code == -50102) {
+    if (err.code == -50102) {
       loading.value = false
       return
     }
@@ -467,7 +467,7 @@ const scanRSS = async (e, rid) => {
 }
 
 const toggleSubscribe = async (rid, isSubscribed) => {
-  if(!isAdmin.value) {
+  if (!isAdmin.value) {
     ElMessage({
       message: langs[settings.value.lang].msg_err_not_admin,
       type: 'error'
@@ -573,6 +573,12 @@ const toggleSubscribe = async (rid, isSubscribed) => {
 
   to {
     transform: rotate(0);
+  }
+}
+
+@media (max-width: 900px) {
+  :deep(.el-dialog) {
+    width: 95% !important;
   }
 }
 </style>

@@ -642,4 +642,19 @@ onMounted(async () => {
     }
   }
 }
+
+@media (max-width: 900px) {
+  :deep(.el-dialog) {
+    width: 95% !important;
+  }
+  .anime-wrap {
+    justify-content: center
+  }
+
+  .detail-wrap {
+    .anime-poster {
+      margin: 10px 5px;
+    }
+  }
+}
 </style>

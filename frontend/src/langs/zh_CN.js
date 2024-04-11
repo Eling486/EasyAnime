@@ -19,6 +19,11 @@ const lang = {
         setting: '设置',
         logout: '登出'
     },
+    home: {
+        info_anime_title: '动画总数',
+        info_subscribed_title: '订阅中的RSS',
+        info_new_today: '今日新增种子'
+    },
     login: {
         login: '登录',
         username: '用户名',

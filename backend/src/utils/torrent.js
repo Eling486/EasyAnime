@@ -78,6 +78,9 @@ const torrent = {
         }
         return newTorrent
     },
+    getToday: async () => {
+        return await global.db.torrent.getToday()
+    },
     updateState: async (tidList, state) => {
         return await global.db.torrent.updateState(tidList, state)
     },

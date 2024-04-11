@@ -51,6 +51,8 @@ CREATE TABLE torrent(
     content_length INTEGER   , --种子大小
     meta TEXT   , --种子元数据
     state INTEGER NOT NULL  DEFAULT -1, --状态：-6-种子重复，-5-剧集重复，-4-无法获取下载状态，-3-种子识别错误，-2-被过滤，-1-不下载，0-未下载，1：队列中，2：已重命名（正在下载），3：下载完成
+    add_time NUMERIC   , --添加时间
+    update_time NUMERIC   , --更新时间
     file_name TEXT   , --下载文件（夹）名
     hash TEXT   , --qBittorrent Hash值
     PRIMARY KEY (tid)
@@ -68,4 +70,3 @@ CREATE TABLE episode(
 )  ; --剧集表
 
 INSERT INTO USER (username, password, is_admin) VALUES ('admin', 'MajXVCD4MFYgX9MAJgLnpb85cGuxfWmIPoBnMT89Wik=', '1');
-INSERT INTO USER (username, password, is_admin) VALUES ('guest', '2asWkOYoHOSMZxZ5C1QPG0I6TJxLaMHSyoHUVSh6DVY=', '0');
