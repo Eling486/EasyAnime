@@ -138,9 +138,9 @@ class db {
                 return await this.search(`SELECT * FROM torrent WHERE tid = ?`, tid)
             },
             getToday: async () => {
-                let dateToday = moment().format("YYYY-MM-DD")
-                let dateNext = moment().add(1, 'day').format("YYYY-MM-DD")
-                return await this.search(`SELECT * FROM torrent WHERE add_time > (strftime('%s', '${dateToday}','localtime')*1000) AND add_time < (strftime('%s', '${dateNext}','localtime')*1000)`)
+                let dateToday = moment().startOf('day').valueOf()
+                let dateNext = moment().startOf('day').add(1, 'day').valueOf()
+                return await this.search(`SELECT * FROM torrent WHERE add_time > ${dateToday} AND add_time < ${dateNext};`)
             },
             getByState: async (state = 0) => {
                 return await this.search(`SELECT * FROM torrent WHERE state = ?`, state)

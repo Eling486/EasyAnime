@@ -11,7 +11,7 @@
       </div>
       <BoxLoading :loading="loading" />
       <div class="rss-wrap">
-        <el-table :data="data.rss" style="width: 100%" :row-class-name="isSubscribe">
+        <el-table :data="data.rss" style="width: 100%;" :row-class-name="isSubscribe">
           <el-table-column
             :label="langs[settings.lang].rss.subscribe"
             width="60"
@@ -579,6 +579,15 @@ const toggleSubscribe = async (rid, isSubscribed) => {
 @media (max-width: 900px) {
   :deep(.el-dialog) {
     width: 95% !important;
+  }
+
+  .rss-wrap {
+    height: fit-content;
+    overflow-y: auto;
+
+    :deep(.el-table) {
+      height: calc(100vh - $ea-header-height - $ea-nav-height-m);
+    }
   }
 }
 </style>
