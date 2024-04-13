@@ -18,10 +18,13 @@ class qBit {
 
     async add(url, fileName, savePath) {
         let hash = url.match(/\/(\w+).torrent/)[1]
-        
+
         let resInfoHash = await this.client.torrents.info({
             hashes: hash
+        }).catch((err) => {
+            global.logger.error(err)
         });
+        if(!resInfoHash) return null;
         if (resInfoHash.length > 0) return [hash]
         let addObj = {
             urls: url,
@@ -30,17 +33,25 @@ class qBit {
             root_folder: true
         }
         if (fileName) addObj['rename'] = fileName
-        const resAdd = await this.client.torrents.add(addObj);
+        const resAdd = await this.client.torrents.add(addObj).catch((err) => {
+            global.logger.error(err)
+        });
+        if(!resAdd) return null;
         if (resAdd !== 'Ok.') return null;
         return hash
     }
 
     async delete(hash, keepFiles = true) {
-        await this.client.torrents.delete(hash, keepFiles);
+        await this.client.torrents.delete(hash, keepFiles).catch((err) => {
+            global.logger.error(err)
+        });
         let resInfoHash = await this.client.torrents.info({
             hashes: hash
+        }).catch((err) => {
+            global.logger.error(err)
         });
-        if(resInfoHash.length > 0) return null;
+        if(!resInfoHash) return null;
+        if (resInfoHash.length > 0) return null;
         return hash
     }
 

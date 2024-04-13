@@ -92,10 +92,12 @@ const lang = {
         msg_ep_state_torrent_err: '种子识别错误',
         msg_ep_state_same_torrent: '重复种子',
         msg_ep_state_error: '异常',
-        msg_torrent_active: '下载使用的是该种子',
+        msg_torrent_active: '下载使用的是该种子，点击取消下载',
         msg_click_to_toggle: '点击切换为该种子',
         msg_toggle_confirm: '是否确定切换种子？',
         msg_toggle_confirm_blod: '该操作将删除已下载的资源！',
+        msg_cancel_confirm: '是否确定取消下载？',
+        msg_cancel_confirm_blod: '该操作将删除已下载的资源！',
         msg_toggle_success: '种子切换完成',
         msg_refresh_poster_success: '海报更新完成',
         msg_refresh_poster_error: '海报更新失败'

@@ -408,7 +408,40 @@ const getToggleContent = (tid) => {
 const toggleTorrent = async (tidTo) => {
   if (waitingToggleFinish.value) return
   let tidFrom = epDialogData.activeTid
-  if (tidTo == tidFrom) return
+  if (tidTo == tidFrom) {
+    ElMessageBox.confirm(
+      `<b>${langs[settings.value.lang].anime.msg_cancel_confirm_blod}</b>`,
+      langs[settings.value.lang].anime.msg_cancel_confirm,
+      {
+        confirmButtonText: langs[settings.value.lang].confirm,
+        cancelButtonText: langs[settings.value.lang].cancel,
+        type: 'warning',
+        icon: markRaw(WarnTriangleFilled),
+        dangerouslyUseHTMLString: true,
+        customClass: 'el-dialog-icon'
+      }
+    ).then(async () => {
+      waitingToggleFinish.value = true
+      let result = await api('POST', '/api/torrent/cancel', {
+        tid: tidFrom
+      }).catch((err) => {
+        ElMessage({
+          message: err.msg || langs[settings.value.lang].msg_err_reload,
+          type: 'error'
+        })
+        return console.log(err)
+      })
+      if (!result) return
+      epDialogVisible.value = false
+      await loadAnimeDetail()
+      waitingToggleFinish.value = false
+      ElMessage({
+        message: langs[settings.value.lang].anime.msg_toggle_success,
+        type: 'success'
+      })
+    })
+    return
+  }
   ElMessageBox.confirm(
     `<b>${langs[settings.value.lang].anime.msg_toggle_confirm_blod}</b>`,
     langs[settings.value.lang].anime.msg_toggle_confirm,
@@ -615,12 +648,11 @@ onMounted(async () => {
       border-radius: 5px;
       margin: 0 3px;
 
-      &:not(.btn-toggle.active):hover {
+      &:hover {
         background-color: ea-main(2);
       }
 
       &.btn-toggle.active {
-        cursor: default;
         :deep(svg) {
           color: ea-yellow(10);
         }
@@ -648,7 +680,7 @@ onMounted(async () => {
     width: 95% !important;
   }
   .anime-wrap {
-    justify-content: center
+    justify-content: center;
   }
 
   .detail-wrap {

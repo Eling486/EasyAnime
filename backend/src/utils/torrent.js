@@ -193,6 +193,20 @@ const torrent = {
 
         return await torrent.torrentDownload(torrentToObj)
     },
+    cancelEpTorrent: async (tid) => {
+        if (tid) {
+            let torrentFromRes = await global.db.torrent.get(tid)
+            if (torrentFromRes.code < 0) return;
+            if (torrentFromRes.data.length == 0) return;
+            let torrentFromObj = torrentFromRes.data[0]
+            await global.db.torrent.updateState([tid], -5)
+            if (torrentFromObj.hash) {
+                let deleteRes = await global.qb.delete(torrentFromObj.hash)
+                if (!deleteRes) return;
+            }
+            return true;
+        }
+    },
     getTorrentByAid: async (aid) => {
         return await global.db.torrent.getByAid(aid)
     }
