@@ -51,6 +51,7 @@
               :label="`${langs[settings.lang].rss.season_prefix}${langs[settings.lang].rss.season_list[season]}${langs[settings.lang].rss.season_suffix}`"
               :value="index"
             />
+            <el-radio-button :label="langs[settings.lang].rss.season_NA" :value="-1" v-if="animeDialogData.NAEp"/>
           </el-radio-group>
         </el-form-item>
         <div class="ep-box">
@@ -253,6 +254,7 @@ const loadAnimeDetail = async () => {
   if (!result) return
   if (result.code < 0) return
   animeDialogData.torrentList = result.data
+  testNAEp()
   await getEpList()
 }
 
@@ -308,11 +310,27 @@ const getEpStateInfo = (epObj) => {
   return [Close, 'danger', false, msg.msg_ep_state_error]
 }
 
+const testNAEp = async () => {
+  dialogLoading.value = true
+  let torrentList = animeDialogData.torrentList
+  for (let i = 0; i < torrentList.length; i++) {
+    let meta = JSON.parse(torrentList[i].meta)
+    if(!meta.info.season || animeDialogData.season.indexOf(meta.info.season) < 0) {
+      animeDialogData.NAEp = true
+      break
+    }
+  }
+}
+
 const getEpList = async () => {
   dialogLoading.value = true
   let torrentList = animeDialogData.torrentList
-  let season = animeDialogData.season[animeDialogData.seasonSelected]
   let epList = []
+  let season = null
+  if (animeDialogData.seasonSelected >= 0) {
+    season = animeDialogData.season[animeDialogData.seasonSelected]
+  }
+
   for (let i = 0; i < torrentList.length; i++) {
     let meta = JSON.parse(torrentList[i].meta)
     let name = torrentList[i].file_name
@@ -326,29 +344,34 @@ const getEpList = async () => {
         break
       }
     }
-    if (newEp[0]) {
-      if (meta.info.season && meta.info.season !== season) continue
-      epList.push({
-        tid: tid,
-        name: name,
-        state: torrentList[i].state,
-        season: meta.info.season || null,
-        ep: meta.info.ep || null,
-        torrentList: [torrentList[i]]
-      })
-      continue
-    }
-    if (!meta.info.season || meta.info.season == season) {
-      let state = epList[newEp[1]].state
-      epList[newEp[1]].torrentList.push(torrentList[i])
-      if (
-        (torrentList[i].state >= -1 && torrentList[i].state > state) ||
-        (torrentList[i].state < -2 && torrentList[i].state > -5 && state < -1)
-      ) {
-        epList[newEp[1]].state = torrentList[i].state
-        if (torrentList[i].state < 0) continue
-        epList[newEp[1]].tid = torrentList[i].tid
+    if (
+      meta.info.season == season ||
+      (!season && animeDialogData.season.indexOf(meta.info.season) < 0)
+    ) {
+      if (newEp[0]) {
+        epList.push({
+          tid: tid,
+          name: name,
+          state: torrentList[i].state,
+          season: meta.info.season || null,
+          ep: meta.info.ep || null,
+          torrentList: [torrentList[i]]
+        })
         continue
+      }
+      if (!newEp[0]) {
+        console.log(newEp)
+        let state = epList[newEp[1]].state
+        epList[newEp[1]].torrentList.push(torrentList[i])
+        if (
+          (torrentList[i].state >= -1 && torrentList[i].state > state) ||
+          (torrentList[i].state < -2 && torrentList[i].state > -5 && state < -1)
+        ) {
+          epList[newEp[1]].state = torrentList[i].state
+          if (torrentList[i].state < 0) continue
+          epList[newEp[1]].tid = torrentList[i].tid
+          continue
+        }
       }
     }
   }
@@ -377,6 +400,7 @@ const showAnimeDetails = async (animeObj) => {
   animeDialogData.season = JSON.parse(animeObj.season).sort()
   animeDialogData.torrentList = []
   animeDialogData.epList = null
+  animeDialogData.NAEp = false
   animeDialogVisible.value = true
   dialogLoading.value = true
   await loadAnimeDetail()

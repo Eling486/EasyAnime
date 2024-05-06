@@ -51,6 +51,7 @@ const lang = {
         season_prefix: '第',
         season_suffix: '季',
         season_list: ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
+        season_NA: '其他',
         operation: '操作',
         add: '添加',
         edit: '编辑',

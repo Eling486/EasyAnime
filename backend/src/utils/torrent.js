@@ -11,7 +11,9 @@ const torrent = {
             const FILTER = JSON.parse(scanResult[i].filter)
             for (let j = 0; j < scanResult[i].items.length; j++) {
                 let aid = scanResult[i].aid
+                let metaSeason = JSON.parse(scanResult[i].meta)['season']
                 let torrentItem = scanResult[i].items[j]
+                if (metaSeason) torrentItem.meta.info.season = metaSeason
 
                 let state = -1
                 if (IS_SUBSCRIBE) state = 0;
@@ -43,23 +45,21 @@ const torrent = {
                 if (!aid) {
                     let season = torrentItem.meta.info.season
                     let animeMeta = await rss.parser[scanResult[i].source].getAnimeByHomepage(torrentItem.homepage)
-                    if (animeMeta.season) season = animeMeta.season;
-                    if (animeMeta.name) {
-                        aid = await anime.addAnimeByData({
-                            title: animeMeta.name,
-                            season: season,
-                            source: scanResult[i].source,
-                            bangumiId: animeMeta.bangumiId,
-                            is_subscribe: IS_SUBSCRIBE || global.config.config.subscribe,
-                            filter: scanResult[i].filter || JSON.stringify(global.config.config.filter)
-                        })
-                    }
+                    aid = await anime.addAnimeByData({
+                        title: animeMeta.name || scanResult[i].name,
+                        season: season || 1,
+                        source: scanResult[i].source,
+                        bangumiId: animeMeta.bangumiId,
+                        is_subscribe: IS_SUBSCRIBE || global.config.config.subscribe,
+                        filter: scanResult[i].filter || JSON.stringify(global.config.config.filter)
+                    })
                 }
 
                 if (aid) {
-                    // TODO: Debug
                     let animeData = await global.db.anime.get(aid)
-                    if (animeData.code == 0) torrentItem.meta.info.name = animeData.data[0].title;
+                    if (animeData.code == 0) {
+                        torrentItem.meta.info.name = animeData.data[0].title;
+                    }
                 }
 
                 let err = await global.db.torrent.add({
@@ -185,8 +185,8 @@ const torrent = {
         if (torrentToRes.code < 0) return;
         if (torrentToRes.data.length == 0) return;
         let torrentToObj = torrentToRes.data[0]
-        
-        if(!tidFrom) {
+
+        if (!tidFrom) {
             let deleteRes = await global.qb.delete(torrentToObj.url.match(/\/(\w+).torrent/)[1], false)
             if (!deleteRes) return;
         }
